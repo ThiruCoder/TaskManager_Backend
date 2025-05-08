@@ -26,7 +26,7 @@ DatabaseConnection()
 // Cors strict orders
 const allowedOrigins = [
     process.env.FRONTEND_DEV_URL,
-    process.env.FRONTEND_PROD_URL
+    process.env.FRONTEND_PROD_URL,
 ];
 app.use(cors({
     origin: (origin, callback) => {
