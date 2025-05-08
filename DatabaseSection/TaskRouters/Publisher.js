@@ -285,6 +285,8 @@ const UpdateTaskById = async (req, res) => {
 
 const DeleteTaskById = async (req, res) => {
     const { id } = req.params;
+    console.log(id);
+
     try {
         if (!id) {
             return res.status(404).json({
