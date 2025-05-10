@@ -134,7 +134,7 @@ const GetTaskById = async (req, res) => {
         }
         // If user is existed or not.
         // const User = await AuthModel.findOne()
-        const userId = await TaskModel.findById({ id })
+        const userId = await TaskModel.findById(id)
         if (!userId) {
             return res.status(404).json({
                 message: 'Id is not available, try different.',
@@ -364,5 +364,48 @@ const sendMail = async (req, res) => {
 
 }
 
+const TaskCompleted = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    try {
+        if (!id) {
+            return res.status(404).json({
+                message: 'Id is required.',
+                success: false
+            })
+        }
+        const updateStatus = await TaskModel.findOneAndUpdate({ _id: id }, { status }, { new: true });
+        if (!updateStatus) {
+            return res.status(403).json({
+                message: 'Status is not updated.',
+                success: false
+            })
+        }
+        return res.status(201).json({
+            data: updateStatus,
+            success: true,
+            message: 'Status is successfully updated.'
+        })
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({
+            error: err,
+            message: 'Failed to send message.',
+            success: false
+        });
+    }
+}
 
-export { CreateTask, GetAllTasks, GetTaskById, UpdateTaskById, DeleteTaskById, ChangeStatusById, GetAssignTaskData, GetCurrentTaskData, sendMail }
+
+export {
+    CreateTask,
+    GetAllTasks,
+    GetTaskById,
+    UpdateTaskById,
+    DeleteTaskById,
+    ChangeStatusById,
+    GetAssignTaskData,
+    GetCurrentTaskData,
+    sendMail,
+    TaskCompleted
+}
